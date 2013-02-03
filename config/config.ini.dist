@@ -1,0 +1,26 @@
+;
+; Configuration for the MESC DNS slave tools
+; ------------------------------------------
+;
+
+; URL to the MESC API
+mesc_api = "http://www.example.org/mesc/xmlrpc.php"
+
+; Token for the API access
+mesc_token = "123456"
+
+; Path to the partial named.conf file for the slave zones
+; you should include that file manually in /etc/bind/named.conf
+named_file = "/etc/bind/named.slave.conf"
+
+; Directory where Bind should store the actual zone files
+zone_file_directory = "/var/lib/bind"
+
+; IP adress of the master server, needed for zone transfer
+dns_master = "127.0.0.1"
+
+; Command to restart Bind
+bind_restart_cmd = "/etc/init.d/bind9 restart"
+
+; Should SSL certificates be verified? (strongly recommended)
+ssl_verify_peer = true
