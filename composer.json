@@ -1,11 +1,17 @@
 {
 	"name": "mesc/mesc-dns-slave",
+	"type": "library",
 	"description": "Tool for setting up a DNS slave server for MESC",
+	"keywords": [
+		"mesc",
+		"dns",
+		"slave"
+	],
+	"homepage": "https://github.com/driehle/mesc-dns-slave",
 	"license": "CC0-1.0",
 	"author": [
 		{
 			"name": "Dennis Riehle",
-			"homepage": "https://github.com/driehle/mesc-dns-slave",
 			"role": "Developer"
 		}
 	],
@@ -20,6 +26,7 @@
 		}
 	],
 	"require": {
+		"php": ">=5.3.3",
 		"zendframework/zend-config": "2.1.*",
 		"mesc/mesc-client-lib": "0.1.*"
 	},
