@@ -21,14 +21,14 @@ if (!file_exists($config)) {
 	exit (-2);
 }
 
-$iniReader = new Zend\Config\Reader\Ini();
-$config = $iniReader->fromFile($config);
+$iniReader = new Zend_Config_Ini($config);
+$config = $iniReader->toArray();
 
-$httpClient = new Zend\Http\Client(null, array(
+$httpClient = new Zend_Http_Client(null, array(
 	'sslverifypeer' => $config['ssl_verify_peer']
 ));
 
-$xmlRpc = new MescClient\Client($config['mesc_api'], $httpClient);
+$xmlRpc = new MescClient_Client($config['mesc_api'], $httpClient);
 $xmlRpc->setToken('riehle-token'); //$config['mesc_token']);
 
 try {
@@ -53,12 +53,12 @@ try {
 		$file .= "\n";
 		
 		foreach ($zones as $zone) {
-	        $file .= "zone \"$zone\" {\n";
-	        $file .= "\ttype slave;\n";
-	        $file .= "\tfile \"/var/lib/bind/$zone.zone\";\n";
-	        $file .= "\tallow-query { any; };\n";
-	        $file .= "\tmasters { " . $config['dns_master'] . "; };\n";
-	        $file .= "};\n\n";
+			$file .= "zone \"$zone\" {\n";
+			$file .= "\ttype slave;\n";
+			$file .= "\tfile \"/var/lib/bind/$zone.zone\";\n";
+			$file .= "\tallow-query { any; };\n";
+			$file .= "\tmasters { " . $config['dns_master'] . "; };\n";
+			$file .= "};\n\n";
 		}
 		
 		file_put_contents($config['named_file'], $file);
@@ -74,11 +74,11 @@ try {
 	
 	file_put_contents($cache, $currentRequest);
 }
-catch (Zend\XmlRpc\Client\Exception\HttpException $e) {
+catch (Zend_XmlRpc_Client_HttpException $e) {
 	echo "HTTP error occured when talking to server:\n";
 	echo $e->getMessage() . "\n";
 }
-catch (Zend\XmlRpc\Client\Exception\FaultException $e) {
+catch (Zend_XmlRpc_Client_FaultException $e) {
 	echo "Error on API-call occured:\n";
 	echo $e->getMessage() . "\n";
 }
