@@ -29,7 +29,7 @@ $httpClient = new Zend\Http\Client(null, array(
 ));
 
 $xmlRpc = new MescClient\Client($config['mesc_api'], $httpClient);
-$xmlRpc->setToken('riehle-token'); //$config['mesc_token']);
+$xmlRpc->setToken($config['mesc_token']);
 
 try {
 	echo "Requesting zone list...\n";
