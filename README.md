@@ -1,27 +1,60 @@
-DNS slave tools for MESC
-========================
+DNS slave tools for MESC (for PHP 5.2)
+======================================
 
 Installation
 ------------
 
-Install package with composer (see http://getcomposer.org):
+Download a ZIP-file of this package an extract it somewhere on your system or clone the repository using git:
 
 ```
-composer.phar install
+git clone git://github.com/driehle/mesc-dns-slave.git
 ```
 
-Copy the configuration file:
+Copy the configuration file and edit it, to reflect your needs:
 
 ```
 cp config/config.ini.dist config/config.ini
+vi config/config.ini
 ```
 
-Go ahead and edit the ```config.ini``` to reflect your needs,
-then run the following command do update the DNS zones for 
-your slave server:
+Run the following command to update the DNS zones of your slave server:
 
 ```
 php bin/update-named.php
 ```
 
 You may want to execute this periodically via cron.
+
+
+Security considerations
+-----------------------
+
+In order for ```mesc-dns-slave``` tools to update the zones of your Bind DNS server, it needs to restart or reload Bind, which usually only root is allowed to do.
+
+One possibilty is running the tools as root. However, *it is strongly recommended not to run these scripts under root!*
+
+Instead, it is recommended to use ```sudo``` to give a certain non-priviledged user the priviledge to restart or reload Bind. The following example configuration assumes that ```dnsslave``` is the username under which the scripts should be executed.
+
+Run ```visudo``` and add a line like the following to  ```/etc/sudoers```:
+
+```
+# User privilege specification
+dnsslave ALL=NOPASSWD:/etc/init.d/bind9 reload
+```
+
+Update ```config/config.ini``` like this:
+
+```
+; Command to restart Bind
+bind_restart_cmd = "sudo /etc/init.d/bind9 reload"
+```
+
+Grant write access to the partial Bind configuration file:
+
+```
+touch /etc/bind/named.slave.conf
+chgrp dnsuser /etc/bind/named.slave.conf
+chmod 0664 /etc/bind/named.slave.conf
+```
+
+You're now ready to securely run mesc-dns-slave with an unpriviledged user.
