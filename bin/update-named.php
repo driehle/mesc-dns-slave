@@ -1,9 +1,9 @@
 #!/usr/bin/php
 <?php
 
-$autoload = __DIR__ . '/../vendor/autoload.php';
-$config = __DIR__ . '/../config/config.ini';
-$cache = __DIR__ . '/../data/cache/lastrequest.dat';
+$autoload = dirname(__FILE__) . '/../vendor/autoload.php';
+$config = dirname(__FILE__) . '/../config/config.ini';
+$cache = dirname(__FILE__) . '/../data/cache/lastrequest.dat';
 
 if (!file_exists($autoload)) {
 	echo "Autoload does not exist (vendor/autoload.php).\n";

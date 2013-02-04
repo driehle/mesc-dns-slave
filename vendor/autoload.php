@@ -1,6 +1,6 @@
 <?php
 
-ini_set('include_path', '.' . PATH_SEPARATOR . __DIR__);
+ini_set('include_path', '.' . PATH_SEPARATOR . dirname(__FILE__));
 
 require_once 'Zend/Loader/Autoloader.php';
 
