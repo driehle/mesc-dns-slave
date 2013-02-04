@@ -177,7 +177,9 @@ class Zend_XmlRpc_Response
         }
 
         // @see ZF-12293 - disable external entities for security purposes
-        $loadEntities         = libxml_disable_entity_loader(true);
+        if (function_exists('libxml_disable_entity_loader')) { // since PHP 5.2.11
+            $loadEntities         = libxml_disable_entity_loader(true);
+        }
         $useInternalXmlErrors = libxml_use_internal_errors(true);
         try {
             $dom = new DOMDocument;
@@ -193,7 +195,9 @@ class Zend_XmlRpc_Response
             // TODO: Locate why this passes tests but a simplexml import doesn't
             // $xml = simplexml_import_dom($dom);
             $xml = new SimpleXMLElement($response);
-            libxml_disable_entity_loader($loadEntities);
+            if (function_exists('libxml_disable_entity_loader')) { // since PHP 5.2.11
+                libxml_disable_entity_loader($loadEntities);
+            }
             libxml_use_internal_errors($useInternalXmlErrors);
         } catch (Exception $e) {
             libxml_disable_entity_loader($loadEntities);
